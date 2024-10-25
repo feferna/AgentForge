@@ -1,6 +1,6 @@
 # AgentForge: A Flexible Low-Code Platform for Reinforcement Learning Agent Design
 
-This repository contains **AgentForge**, a flexible low-code platform designed for Reinforcement Learning (RL) agent design, which was presented in a paper published at **ICAART 2025**. The platform implements a custom Particle Swarm Optimization (PSO) algorithm for hyperparameter optimization in RL agents using stable baselines3. Additionally, **OPTUNA** is included as a baseline for hyperparameter optimization, supporting Bayesian Optimization (Tree-structured Parzen Estimator) and Random Search strategies.
+This repository contains **AgentForge**, a flexible low-code platform designed for Reinforcement Learning (RL) agent design, which was submitted as a paper to **ICAART 2025** and it is currently under review. The platform implements Bayesian Optimization (Tree-structured Parzen Estimator) and Random Search strategies using **OPTUNA** and a custom Particle Swarm Optimization (PSO) algorithm for hyperparameter optimization in RL agents using stable baselines3.
 
 ## Running AgentForge
 To perform parameter optimization using AgentForge:
