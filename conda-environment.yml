@@ -1,0 +1,52 @@
+name: AgentForge
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - blas * mkl
+  - box2d-py=2.3.8
+  - cuda-cudart=12.1.105
+  - cuda-cupti=12.1.105
+  - cuda-libraries=12.1.0
+  - cuda-nvrtc=12.1.105
+  - cuda-nvtx=12.1.105
+  - cuda-opencl=12.5.39
+  - cuda-runtime=12.1.0
+  - cuda-version=12.5
+  - farama-notifications=0.0.4
+  - gymnasium=0.29.1
+  - gymnasium-all=0.29.1
+  - gymnasium-atari=0.29.1
+  - gymnasium-box2d=0.29.1
+  - gymnasium-classic_control=0.29.1
+  - gymnasium-mujoco=0.29.1
+  - gymnasium-other=0.29.1
+  - gymnasium-toy_text=0.29.1
+  - matplotlib=3.8.4
+  - matplotlib-base=3.8.4
+  - mujoco-python=2.3.7
+  - numpy
+  - optuna=3.6.1
+  - optuna-dashboard
+  - pandas
+  - pillow
+  - pip
+  - py-opencv
+  - pygame
+  - python
+  - pytorch=2.3.1
+  - pytorch-cuda=12.1
+  - pytorch-mutex=1.0=cuda
+  - pyyaml
+  - setproctitle
+  - sb3-contrib=2.3.0
+  - scipy
+  - seaborn
+  - seaborn-base
+  - sqlalchemy
+  - stable-baselines3=2.3.2
+  - torchaudio=2.3.1
+  - torchvision=0.18.1
+  - tqdm
+  - yq

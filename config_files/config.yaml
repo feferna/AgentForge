@@ -1,0 +1,255 @@
+# config.yaml
+#
+# This YAML configuration file defines settings for PSO and OPTUNA-based hyperparameter optimization 
+# within AgentForge: A Flexible Low-Code Platform for Reinforcement Learning Agent Design, 
+# presented at ICAART 2025. AgentForge supports the optimization of reinforcement learning algorithms 
+# using Stable Baselines3.
+#
+# Usage:
+# This file specifies various parameters for hyperparameter optimization and environment setup 
+# in AgentForge, including PSO and OPTUNA configurations.
+
+configuration:
+  name_setup_user_file: run/env_configs/PixelLunarLander_config.py
+  # Specifies the environment file used for training and evaluation.
+  # Some examples: 
+  #   run/env_configs/FovealLunarLander_config.py
+  #   run/env_configs/SampleEnv_config.py
+
+  save_videos: true
+  # If true, a demo video of the best agents are going to be saved during the optimization process.
+
+  database_url: 'sqlite:///database.db'
+  # Database URL where optimization results are stored. Can be SQLite, MySQL, or PostgreSQL.
+
+agent_training_configuration:  
+  continue_from_existing_database: false
+  # If true, continue optimization from a previously incomplete session with the same parameters.
+  
+  number_training_timesteps: 5_000_000
+  # Total number of training timesteps per iteration.
+  
+  eval_every_n_batches: 10
+  # Evaluate the agent every n batches of training# or PixelLunarLanderCustomReward.
+  
+  max_number_steps_per_episode: 1024
+  # Maximum number of steps per episode during training.
+  
+  number_environments_for_training: 10
+  # Number of parallel environments used for training.
+
+  training_batch_size: 256
+  # Batch size used during training. This setting impacts the memory usage during optimization.
+  
+  stable-baselines-algorithm: PPO
+  # Algorithm used from Stable Baselines (e.g., PPO, SAC).
+  
+  stable-baselines-policy: CnnPolicy
+  # Policy architecture used by the Stable Baselines algorithm (e.g., CnnPolicy).
+  
+  sb3-contrib: false
+  # Whether to use additional contributed algorithms from sb3_contrib.
+  
+  random-seed: 123
+  # Random seed for reproducibility.
+
+  device: cuda
+  # Device used to train the agent (cuda, cpu or mps)
+
+parallelization:
+  n_processes: 4
+  # Total number of processes running in parallel during optimization.
+
+parameter_optimization_config: 
+  # This section should have all optimization related parameter for PSO and OPTUNA
+  optimization_algorithm: bayesian_optimization
+      # Optimization algorithm to use.
+      # Options:
+      # - random_search: Use Random Search Sampler from OPTUNA.
+      # - bayesian_optimization: Use Tree-structured Parzen Estimator Sampler from OPTUNA.
+      # - PSO: Use PSO optimizer
+
+  single_objective_evaluation_function: max 
+  # Defines the strategy for evaluating the fitness of a solution on single-objective optimizations.
+  # Options:
+  # - max: Use the maximum reward obtained in the whole trial training session as the objective.
+  # - last: Use only the last reward of the training session as the objective.
+  
+  particle_swarm_optimization:    
+    num_generations: 20  
+    # Number of generations (iterations) for particle swarm optimization.
+
+    population_size: 20 
+    # Number of particles (solutions) in the swarm.
+
+    w: 0.9694 
+    # Inertia weight for particle movement control.
+
+    c1: 0.099381
+    # Cognitive component weight (individual best).
+
+    c2: 0.099381
+    # Social component weight (global best).
+
+  optuna:
+    num_trials: 100
+    # Total number of trials for each parallel process
+
+    # The following parameters only works with Bayesian Optimization.
+    num_startup_trials: 50
+    # Number of trials using Random Sampling instead of TPE
+
+    num_ei_candidates: 80
+    # Number of candidate samples used to calculate the Expected Improvement.
+
+    multivariate: true
+    # Uses multivariate TPE.
+    # If the objective function is known to be affected significantly by interactions between hyperparameters,
+    # using a multivariate TPE can better capture these relationships.
+
+parameters_bounds: 
+# Defines the details of the parameters to be optimized
+# Add or remove parameters according to your RL agent
+
+  # This downsampling_size only exists in the PixelLunarLander environment
+  downsampling_size:
+    type: environment_kwargs  # Parameter type (environment_kwargs, policy_kwargs or default)
+    searchable: true  # Whether this parameter is included in the search space for optimization.
+    integer: true  # Indicates if the parameter should be an integer value.
+    user_preference: 92  # User-preferred value for the parameter.
+    start: 40  # Starting value for the parameter search space.
+    stop: 92  # Ending value for the parameter search space.
+
+  # Parameters for the Foveal LunarLander environment
+  # ffov:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: true
+  #   user_preference: 99
+  #   start: 40
+  #   stop: 120
+  # obs:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: true
+  #   user_preference: 36
+  #   start: 36
+  #   stop: 50
+  # par_scale:
+  #   type: environment_kwargs
+  #   searchable: false
+  #   integer: false
+  #   user_preference: 1.5
+  #   start: 1.5
+  #   stop: 1.5
+  # gray_coef:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: false
+  #   user_preference: 0.5
+  #   start: 0.1
+  #   stop: 0.9
+  # gaze_bonus:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: false
+  #   user_preference: 2
+  #   start: 1
+  #   stop: 10
+  # tr1:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: false
+  #   user_preference: 0.8
+  #   start: 0.7
+  #   stop: 0.95
+  # w1:
+  #   type: environment_kwargs
+  #   searchable: true
+  #   integer: false
+  #   user_preference: 0.5
+  #   start: 0.1
+  #   stop: 10
+  
+  # Training parameters
+  # The training parameters exist for any environment
+  gae_lambda:
+    type: default  # Parameter type for default algorithm parameters.
+    searchable: true
+    integer: false
+    user_preference: 0.9
+    start: 0.9
+    stop: 0.95
+  gamma:
+    type: default
+    searchable: true
+    integer: false
+    user_preference: 0.4
+    start: 0.4
+    stop: 0.8
+  learning_rate:
+    type: default
+    searchable: true
+    integer: false
+    user_preference: 3.5e-4
+    start: 3.5e-4
+    stop: 3.5e-3
+  n_epochs:
+    type: default
+    searchable: true
+    integer: true
+    user_preference: 3
+    start: 3
+    stop: 10
+  ent_coef:
+    type: default
+    searchable: true
+    integer: false
+    user_preference: 0.01
+    start: 0.01
+    stop: 0.1
+  clip_range:
+    type: default
+    searchable: true
+    integer: false
+    user_preference: 0.01
+    start: 0.01
+    stop: 0.3
+
+  # Neural networks parameters
+  # Use the same variables names as presented here
+  activation_fn: 
+    type: policy_kwargs
+    searchable: true
+    integer: false
+    user_preference: 0.0
+    start: 0.0
+    stop: 1.0
+  policy_arch_num_layers:
+    type: policy_kwargs
+    searchable: true
+    integer: true
+    user_preference: 2
+    start: 1
+    stop: 4
+  policy_arch_num_neurons:
+    type: policy_kwargs
+    searchable: true
+    integer: true
+    user_preference: 64
+    start: 64
+    stop: 128
+  value_arch_num_layers:
+    type: policy_kwargs
+    searchable: true
+    integer: true
+    user_preference: 2
+    start: 2
+    stop: 4
+  value_arch_num_neurons:
+    type: policy_kwargs
+    searchable: true
+    integer: true
+    user_preference: 64
+    start: 64
+    stop: 128
